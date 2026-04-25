@@ -3,7 +3,10 @@
 > this extension while it should work on any scratch fork was tested on **Turbowarp** and **Snail IDE**
 
 - to use this extension go to your fave scratch IDE (that supports custom extensions) go to the Extensions tab and search "Custom Extension" either select the extension.js file, copy and paste its content or paste this url if asked to 
-`PLACEHOLDER`
+
+```
+https://cdn.jsdelivr.net/gh/jerryjhird/Scratch-Hashmaps@master/extension.js
+```
 
 ## COMMANDS
 
