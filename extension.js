@@ -3,7 +3,7 @@
 // Description: Adds Hashmaps to Scratch!
 // By: Jerryjhird <https://scratch.mit.edu/users/JerryTheJhird/>
 // Original: NONE
-// License: UNLICENSE
+// License: MIT License
 
 (async function(Scratch) {
     'use strict';
@@ -31,7 +31,7 @@
                     {
                         opcode: 'delete',
                         blockType: Scratch.BlockType.COMMAND,
-                        text: 'delete key: [KEY] of map: [MAP]',
+                        text: 'delete key: [KEY] from map: [MAP]',
                         arguments: {
                             KEY: { type: Scratch.ArgumentType.STRING, defaultValue: 'name' },
                             MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
@@ -46,9 +46,19 @@
                         }
                     },
                     {
+                        opcode: 'jsontomap',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'convert JSON: [JSON] to map: [MAP]',
+                        arguments: {
+                            JSON: { type: Scratch.ArgumentType.STRING, defaultValue: '{"hp": 100, "level": 1}' },
+                            MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
+                        }
+                    },
+
+                    {
                         opcode: 'get',
                         blockType: Scratch.BlockType.REPORTER,
-                        text: 'item: [KEY] of map: [MAP]',
+                        text: 'item: [KEY] from map: [MAP]',
                         arguments: {
                             KEY: { type: Scratch.ArgumentType.STRING, defaultValue: 'name' },
                             MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
@@ -71,10 +81,11 @@
                             KEY: { type: Scratch.ArgumentType.STRING, defaultValue: 'name' }
                         }
                     },
+
                     {
                         opcode: 'keys',
                         blockType: Scratch.BlockType.REPORTER,
-                        text: 'all keys of map: [MAP]',
+                        text: 'all keys from map: [MAP]',
                         arguments: {
                             MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
                         }
@@ -82,7 +93,16 @@
                     {
                         opcode: 'values',
                         blockType: Scratch.BlockType.REPORTER,
-                        text: 'all items of map: [MAP]',
+                        text: 'all items from map: [MAP]',
+                        arguments: {
+                            MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
+                        }
+                    },
+
+                    {
+                        opcode: 'maptojson',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'convert map: [MAP] to JSON',
                         arguments: {
                             MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
                         }
@@ -136,6 +156,26 @@
         values(args) {
             const map = registry.get(args.MAP);
             return map ? JSON.stringify(Array.from(map.values())) : "[]";
+        }
+
+        maptojson(args) {
+            const map = registry.get(args.MAP);
+            if (!map) return "{}";
+            return JSON.stringify(Object.fromEntries(map));
+        }
+
+        jsontomap(args) {
+            try {
+                const obj = JSON.parse(args.JSON);
+                const map = this._getmap(args.MAP);
+                map.clear();
+
+                for (const [key, value] of Object.entries(obj)) {
+                    map.set(key, value);
+                }
+            } catch (e) {
+                console.error("Failed to parse JSON for map:", e);
+            }
         }
     }
 
