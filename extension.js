@@ -73,16 +73,6 @@
                         }
                     },
                     {
-                        opcode: 'has',
-                        blockType: Scratch.BlockType.BOOLEAN,
-                        text: 'map: [MAP] contains key: [KEY]?',
-                        arguments: {
-                            MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' },
-                            KEY: { type: Scratch.ArgumentType.STRING, defaultValue: 'name' }
-                        }
-                    },
-
-                    {
                         opcode: 'keys',
                         blockType: Scratch.BlockType.REPORTER,
                         text: 'all keys from map: [MAP]',
@@ -105,6 +95,15 @@
                         text: 'convert map: [MAP] to JSON',
                         arguments: {
                             MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' }
+                        }
+                    },
+                    {
+                        opcode: 'has',
+                        blockType: Scratch.BlockType.BOOLEAN,
+                        text: 'map: [MAP] contains key: [KEY]?',
+                        arguments: {
+                            MAP: { type: Scratch.ArgumentType.STRING, defaultValue: 'inventory' },
+                            KEY: { type: Scratch.ArgumentType.STRING, defaultValue: 'name' }
                         }
                     }
                 ]
